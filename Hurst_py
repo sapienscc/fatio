@@ -1,0 +1,54 @@
+# -*- coding: utf-8 -*-
+"""
+Spyder Editor
+
+This is a temporary script file.
+"""
+
+import numpy as np
+import scipy as sci
+import matplotlib.pyplot as plt
+#from scipy.interpolate import *
+
+def diferenca_acumulada (array, lista):
+    for i in range(array.size):
+        if i == 0:
+            elemento = (array[i] - np.average(array))
+        else:
+            elemento = (array[i] - np.average(array)) + lista[i - 1]
+        lista.append(elemento)
+    n.append(np.log10(array.size))
+    return
+
+def monta_rs(array):
+    lista = []
+    diferenca_acumulada(array, lista)
+    lista = np.asarray(lista)
+    variancia = (array.var()**0.5)
+    rs_valor = np.log10((lista.max() - lista.min())/ variancia)
+    rs.append(rs_valor)
+    return
+
+a = np.random.random((8192))
+print("parte 1")
+rs = []
+n = []
+cont = 2
+
+monta_rs(a)
+print("parte 2")
+while cont < 8192:
+    monta_rs(a[0:cont])
+    cont += 2
+    print(cont)
+
+print("parte 3")    
+coef = sci.polyfit(n,rs,1)
+print("parte 4")
+plt.plot(n,rs, 'o')
+plt.plot(n,np.polyval(coef,n), 'r-')
+plt.grid(True)
+
+H = (rs[0] - coef[1])/n[0]
+print("\nO coeficiente de Hurst obtido é: %f" %H)
+print("\nA quantidade de pontosutiliazdos foi: 8192")
